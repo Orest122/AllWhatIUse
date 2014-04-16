@@ -1,0 +1,51 @@
+#include <iostream>
+#include <cmath>
+using namespace std;
+class Trapezium {
+protected:
+	double bigerLine;
+	double smallerLine;
+public:
+	Trapezium(double sBigerLine = 0.0, double sSmallerLine = 0.0):bigerLine(sBigerLine), smallerLine(sSmallerLine){};
+	virtual double S() = 0;
+	virtual void print() = 0;
+	virtual ~Trapezium() {};
+};
+class Rectangle: public Trapezium {
+public:
+	Rectangle(double sBigerLine = 0.0, double sSmallerLine = 0.0):Trapezium(sBigerLine, sSmallerLine){};
+	virtual double S() {
+		return bigerLine * smallerLine;
+	}
+	virtual void print() {
+		cout << "Rectangle : FirstLine = " << smallerLine << " SecondLine = " << bigerLine << " "; 
+	}
+};
+class Romb: public Trapezium {
+protected:
+	double angle;
+public:
+	Romb(int sLine = 0.0, double sAngle = 0): Trapezium(sLine, sLine), angle(sAngle){}
+	virtual double S() {
+		double s = pow(bigerLine, 2) * sin(angle) / 2;
+		return s;
+	}
+	virtual void print() {
+		cout << "Romb : Line = " << smallerLine << " Angle = " << angle << " ";
+	}
+};
+int main() {
+	const int Size = 6;
+	Trapezium **arr = new Trapezium*[Size];
+	arr[0] = new Romb(8, 2);
+	arr[1] = new Romb(4, 3);
+	arr[2] = new Rectangle(10, 8);
+	arr[3] = new Romb(16, 1.5);
+	arr[4] = new Rectangle(6, 3);
+	arr[5] = new Rectangle(5, 5);
+	for (int i = 0; i < Size; ++i) {
+		arr[i]->print();
+		cout << " S = " << arr[i]->S() << endl;
+	}
+	system("pause");
+}
